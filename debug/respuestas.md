@@ -36,7 +36,7 @@ y compilen y corren el programa de acuerdo a los comentarios en el código,
 para obtener los ejecutables `small.x` y `big.x`.
 Identifiquen los errores que devuelven (¡si devuelven alguno!) los ejecutables.
 
-- Al correr el ejecutable `small.x` no devuelve ningun error mientras que `big.x` genera un error de tipo *Segmentation fault(core dump)*. Para generar el archivo **core** y poder analizarlo con gdb necesitamos utilizar el comando `ulimit -c unlimited` y volver a correr el ejecutable.
+- Al correr el ejecutable `small.x` no devuelve ningun error mientras que `big.x` genera un error de tipo *Segmentation fault(core dumped)*. Para generar el archivo **core** y poder analizarlo con gdb necesitamos utilizar el comando `ulimit -c unlimited` y volver a correr el ejecutable.
 
 - Al analizarlo con gdb (`$gdb ./big.x core`) obtenemos:
 ```
@@ -79,8 +79,22 @@ Esta "solucion" no resuelve el problema porque solo eliminamos el sintoma tempor
 En la carpeta `valgrind/` hay ejemplos en C y FORTRAN que se pueden ejecutar
 con valgrind. Describan el error y por qué sucede
 
+- Al correr el ejecutable del archivo **source1.c** y utilizar el comando `top` podemos ver que en pocos segundo el porcentaje de utilizacion de la CPU alcanza el 80% aprox. y si dejamos correr durante algunos minutos mas la pc se tilda y es necesario reiniciarla.
+
+- Para utlizar el comando `valgrind` reduzco el tamano de la matriz (SIZE). El debug se traba siempre en el mismo lugar y no llego a que me tire ningun tipo de error. No se que esta pasando.
+
 ## Funny
 
 En la carpeta `funny/` hay un código de C. Describan las diferencias de los ejecutables
 al compilar con y sin el flag `-DDEBUG`. ¿De dónde vienen esas diferencias?
+
+Ambos codigos generan el error *Segmentation fault (core dumped)* pero la diferencia es que el que corremos con el flag imprime en la terminal la frase *I'm HERE ! ! !'*. Esta diferencia se debe a que el flag activa la definicion de un `char *errmsg`. El error que muestra *gdb* es el siguiente:
+
+```
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  0x000000000040066d in main (argc=1, argv=0x7fff4283d928) at test_oob2.c:29
+29	      a[i+1000] = a[i];
+```
+
+
 

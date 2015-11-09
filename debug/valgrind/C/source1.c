@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#define SIZE 1000
+#define SIZE 10
 
 void mat_Tmat_mul( float * A, float * C ){
 
